@@ -8,7 +8,8 @@ const mongoose = require('mongoose')
 const UserSchema = new mongoose.Schema({
     namee: String,
     email: String,
-    age: Number
+    age: Number,
+    statuss: Boolean
 
 })
 

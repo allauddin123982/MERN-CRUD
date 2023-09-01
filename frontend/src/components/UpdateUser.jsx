@@ -1,34 +1,32 @@
-import React, { useState, useEffect } from 'react'
-import axios from 'axios';
-import { useNavigate, useParams } from 'react-router-dom'
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { useNavigate, useParams } from "react-router-dom";//useParams -> to access route parameters from the URL
 const UpdateUser = () => {
   const [form, setForm] = useState({});
-  const {id} = useParams()//distract the id from the URL
-  
-  function handleSubmitUpdate(e){
+  const { id } = useParams(); //distract the id from the URL
+  const navigate = useNavigate();
+  function handleSubmitUpdate(e) {
     e.preventDefault();
-    axios.put("http://localhost:9000/updateUser/"+id, form)
-    .then((result) => {
-      console.log(result);
-      navigate("/");
-    })
-    .catch((err) => console.log(err));
+    axios.put("http://localhost:9000/updateUser/" + id, form)
+      .then((result) => {
+        console.log(result);
+        navigate("/");
+      })
+      .catch((err) => console.log(err));
   }
-  
-  const navigate = useNavigate()
 
-  useEffect(()=>{ 
-    axios.get('http://localhost:9000/getUser/'+id)
-    .then(result => {console.log(result)
-      setForm(result.data);
-      
-    })
-    .catch(err => console.log(err))
-  },[])
+  useEffect(() => {
+    axios.get("http://localhost:9000/getUser/" + id)
+      .then((result) => {
+        setForm(result.data);
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
   //checking the update field recieved the data from backend successfully
-  useEffect(()=>{ 
-    console.log({form})
-  },[form])
+  useEffect(() => {
+    console.log({ form });
+  }, [form]);
 
   return (
     <>
@@ -46,8 +44,9 @@ const UpdateUser = () => {
                 id="exampleInputName"
                 aria-describedby="NameHelp"
                 value={form.namee}
-                onChange={(e)=>setForm(prev=>({...prev,namee:e.target.value}))}
-               
+                onChange={(e) =>
+                  setForm((prev) => ({ ...prev, namee: e.target.value }))
+                }
               />
             </div>
             <div className="mb-3">
@@ -60,7 +59,9 @@ const UpdateUser = () => {
                 id="exampleInputEmail1"
                 aria-describedby="emailHelp"
                 value={form.email}
-                onChange={(e)=>setForm(prev => ({...prev, email:e.target.value}))}
+                onChange={(e) =>
+                  setForm((prev) => ({ ...prev, email: e.target.value }))
+                }
               />
               <div id="emailHelp" className="form-text">
                 We'll never share your email with anyone else.
@@ -75,11 +76,28 @@ const UpdateUser = () => {
                 className="form-control"
                 id="exampleInputName"
                 aria-describedby="NameHelp"
-               value={form.age}
-               onChange={(e)=>setForm(prev => ({...prev, age:e.target.value}))}
+                value={form.age}
+                onChange={(e) =>
+                  setForm((prev) => ({ ...prev, age: e.target.value }))
+                }
               />
             </div>
-           
+            <div className="mb-3">
+              <label htmlFor="Name" className="form-label">
+                Status:
+              </label>
+              <input
+                type="text"
+                className="form-control"
+                id="exampleInputName"
+                aria-describedby="NameHelp"
+                value={form.statuss}
+                onChange={(e) =>
+                  setForm((prev) => ({ ...prev, statuss: e.target.value }))
+                }
+              />
+            </div>
+
             <button type="submit" className="btn btn-primary">
               Update
             </button>
@@ -87,7 +105,7 @@ const UpdateUser = () => {
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default UpdateUser
+export default UpdateUser;

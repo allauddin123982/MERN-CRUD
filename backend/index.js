@@ -13,7 +13,11 @@ app.use(express.json()); // parse the frontend data into json format
 
 //4
 //connection with MongoDb Database
-mongoose.connect("mongodb://localhost:27017/crud");
+mongoose.connect("mongodb://localhost:27017/crud").then((resss)=>{
+  console.log('MongoDB Started')
+}).catch((errrr)=>{
+  console.log("Error occured while starting db",errrr)
+});
 
 //11
 //Create Api to add new record
@@ -28,7 +32,7 @@ app.post("/CreateUser", (req, res) => {
 app.get("/", (req, res) => {
   UserModel.find({})
     .then((users) => res.json(users))
-    .catch((err) => res.json(users));
+    .catch((err) => res.json(err));
 });
 
 //13
@@ -45,7 +49,7 @@ app.put("/updateUser/:id", (req, res) => {
   const id = req.params.id;
   UserModel.findByIdAndUpdate(
     { _id: id },
-    { namee: req.body.namee, email: req.body.email, age: req.body.age }
+    { namee: req.body.namee, email: req.body.email, age: req.body.age, statuss: req.body.statuss }
   )
     .then((users) => res.json(users))
     .catch((err) => res.json(err));
@@ -58,8 +62,18 @@ app.delete("/deleteUser/:id", (req, res) => {
     .then((res) => res.json(res))
     .catch((error) => res.json(error));
 })
-
-
+//16
+app.get("/getTrue/",(req,res) => {
+  UserModel.find({statuss:true})
+  .then((users) => res.json(users))
+  .catch((err) => res.json(err));
+});
+//17
+app.get("/getFalse", (req, res) => {
+  UserModel.find({statuss:false})
+  .then((users)=>res.json(users))
+  .catch((err)=>{res.json(err)})
+})
 //5
 //craete a Model for users in new Folder(models->Users)
 

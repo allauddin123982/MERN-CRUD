@@ -7,18 +7,17 @@ const CreateUser = () => {
   function handleChange(e) {
     setForm({ ...form, [e.target.name]: e.target.value });
   }
+  
   function handleSubmit(e) {
     e.preventDefault();
-    //  route name    passing data
-    axios
-      .post("http://localhost:9000/CreateUser", form)
+                    //  route name                  passing data
+    axios .post("http://localhost:9000/CreateUser", form)
       .then((result) => {
         console.log(result);
         navigate("/");
       })
       .catch((err) => console.log(err));
   }
-
   return (
     <>
       <div className="d-flex vh-100 justify-content-center mt-5">
@@ -61,6 +60,19 @@ const CreateUser = () => {
               <input
                 type="text"
                 name="age"
+                className="form-control"
+                id="exampleInputName"
+                aria-describedby="NameHelp"
+                onChange={handleChange}
+              />
+            </div>
+            <div className="mb-3">
+              <label htmlFor="Name" className="form-label">
+                Status:
+              </label>
+              <input
+                type="text"
+                name="statuss"
                 className="form-control"
                 id="exampleInputName"
                 aria-describedby="NameHelp"
