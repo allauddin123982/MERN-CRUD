@@ -7,7 +7,7 @@ const UpdateUser = () => {
   const navigate = useNavigate();
   function handleSubmitUpdate(e) {
     e.preventDefault();
-    axios.put("http://localhost:9000/updateUser/" + id, form)
+    axios.put("http://localhost:9000/" + id, form)
       .then((result) => {
         console.log(result);
         navigate("/");
@@ -16,7 +16,7 @@ const UpdateUser = () => {
   }
 
   useEffect(() => {
-    axios.get("http://localhost:9000/getUser/" + id)
+    axios.get("http://localhost:9000/" + id)
       .then((result) => {
         setForm(result.data);
       })

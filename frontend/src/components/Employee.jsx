@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 const Employee = () => {
   return (
     <>
-      <div className="d-flex bg-dark vh-50 justify-content-center">
+      <div className="d-flex bg-dark vh-100 justify-content-center">
         <div>
           <p className="pt-5 text-warning fw-bold fs-5">Employees</p>
           <Link to={"/CreateEmp"}>

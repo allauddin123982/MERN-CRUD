@@ -1,24 +1,27 @@
-import React, { useState } from 'react'
-import axios from 'axios'
+import React, { useState } from "react";
+import axios from "axios";
 const CreateEmployee = () => {
-  
-    const [form, setForm ] = useState({})
-    const handleChange = (e) => {
-        setForm({...form, [e.target.name]: e.target.value})
-    }
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        axios.post("mongodb://localhost:27017/CreateEmployee",form)
-        .then((response)=>{
-            console.log({response})
-        })
-        .catch((error) => {console.log({error})})
-    }
-    return (
+  const [form, setForm] = useState({});
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    axios
+      .post("http://localhost:9000/employee/CreateEmployee", form)
+      .then((response) => {
+        console.log({ response });
+      })
+      .catch((error) => {
+        console.log({ error });
+      });
+  };
+  return (
     <>
-      <div className='bg-dark vh-100 d-flex justify-content-center pt-5'>
-      <div className="w-50 bg-white rounded p-3">
-          <form onSubmit={handleSubmit}>
+      <div className="d-flex bg-dark vh-100 justify-content-center">
+        <div>
+
+          <form onSubmit={handleSubmit} className="bg-white p-5 mt-5">
             <h2>Add Employee</h2>
             <div className="mb-3">
               <label htmlFor="Name" className="form-label">
@@ -60,17 +63,15 @@ const CreateEmployee = () => {
                 onChange={handleChange}
               />
             </div>
-          
-            
-           
+
             <button type="submit" className="btn btn-primary">
               Submit
             </button>
           </form>
         </div>
       </div>
-              </>
-  )
-}
+    </>
+  );
+};
 
-export default CreateEmployee
+export default CreateEmployee;

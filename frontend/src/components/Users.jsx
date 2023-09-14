@@ -15,30 +15,24 @@ const Users = () => {
 
     handleAll();
   }, []);
-
-  const handleTrue = () => {
-    axios
-      .get("http://localhost:9000/getTrue/")
-      .then((result) => {
-        setUsers(result.data);
-      })
-      .catch((err) => console.log(err));
-    console.log({ users });
-  };
-
-  const handleFalse = () => {
-    axios
-      .get("http://localhost:9000/getFalse/")
-      .then((result) => {
-        setUsers(result.data);
-      })
-      .catch((err) => console.log(err));
-    console.log({ users });
-  };
-
   const handleAll = () => {
     axios
-      .get("http://localhost:9000")
+      .get("http://localhost:9000/")
+      .then((result) => {
+        setTimeout(() => {
+          setUsers(result.data);
+          setLoading(false);
+        }, 1000);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  const handleTrue = () => {
+    setLoading(true);
+    axios
+      .get("http://localhost:9000/getTrue")
       .then((result) => {
         setTimeout(() => {
           setUsers(result.data);
@@ -46,9 +40,25 @@ const Users = () => {
         }, 1000);
       })
       .catch((err) => console.log(err));
+    console.log({ users });
+  };
+
+  const handleFalse = () => {
+    setLoading(true);
+    axios
+      .get("http://localhost:9000/getFalse")
+      .then((result) => {
+        setTimeout(() => {
+          setUsers(result.data);
+          setLoading(false);
+        }, 1000);
+      })
+      .catch((err) => console.log(err));
+    console.log({ users });
   };
 
   const handleDesSort = () => {
+    setLoading(true);
     axios
       .get("http://localhost:9000/getDesSort")
       .then((result) => {
@@ -61,6 +71,7 @@ const Users = () => {
   };
 
   const handleAscSort = () => {
+    setLoading(true);
     axios
       .get("http://localhost:9000/getAscSort")
       .then((result) => {
@@ -73,6 +84,7 @@ const Users = () => {
   };
 
   const handleNameSort = () => {
+    setLoading(true);
     axios
       .get("http://localhost:9000/getNameSort")
       .then((result) => {
@@ -105,7 +117,7 @@ const Users = () => {
 
   const handleDelete = (id) => {
     axios
-      .delete("http://localhost:9000/deleteUser/" + id)
+      .delete("http://localhost:9000/" + id)
       .then((res) => {
         console.log(res);
         window.location.reload();
@@ -115,108 +127,107 @@ const Users = () => {
 
   return (
     <>
-      <div className="d-flex bg-dark vh-50 justify-content-center">
+      {/* <p className="pt-5 text-warning fw-bold fs-5">Users</p> */}
+      <div className="bg-dark vh-100 pt-5 d-flex justify-content-center">
+        <div className="w-50 p-3 ">
+          <Link to={"/create"}>
+            <button className="btn btn-success ">Add Record</button>
+          </Link>
 
-        <p className="pt-5 text-warning fw-bold fs-5">Users</p>
-        <div className="p-5 d-flex bg-dark vh-50 justify-content-center">
-        
-          <div className="w-50 rounded p-3 ">
-            <Link to={"/create"}>
-              <button className="btn btn-success ">Add Record</button>
-            </Link>
-
-            <div className="float-right"> Total records : {users.length}</div>
-            <table className="table mt-4 p-5">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Email</th>
-                  <th>Age</th>
-                  <th>Status</th>
-                  <th>Score</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              {loading ? (
-                <div className="dot-wave ">
-                  <div className="dot-wave__dot"></div>
-                  <div className="dot-wave__dot"></div>
-                  <div className="dot-wave__dot"></div>
-                  <div className="dot-wave__dot"></div>
-                </div>
-              ) : users.length > 0 ? (
-                <tbody>
-                  {users.map((user, index) => (
-                    <tr
-                      key={index}
-                      className={`${
-                        user.score >= 50 ? "bg-danger" : "bg-success"
-                      }`}
-                    >
-                      <td>{user.namee}</td>
-                      <td>{user.email}</td>
-                      <td>{user.age}</td>
-                      <td>
-                        {user.score >= 50 ? <AiOutlineCheck /> : <RxCross2 />}
-                      </td>
-                      <td>{user.score}</td>
-                      <td>
-                        <Link
-                          to={`/update/${user._id}`}
-                          className="btn btn-warning mx-2"
-                        >
-                          <AiTwotoneEdit />
-                        </Link>
-                        <button
-                          className="btn btn-danger"
-                          onClick={() => handleDelete(user._id)}
-                        >
-                          <AiTwotoneDelete />
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              ) : (
-                <p className="mt-2">No such records</p>
-              )}
-            </table>
-            <div className="d-flex gap-2  flex-wrap">
-              <button className="btn btn-success" onClick={handleTrue}>
-                show only true
-              </button>
-              <button className="btn btn-success" onClick={handleFalse}>
-                show only false
-              </button>
-              <button className="btn btn-success" onClick={handleAll}>
-                show All
-              </button>
-              <button className="btn btn-success" onClick={handleDesSort}>
-                Sort in Descending
-              </button>
-              <button className="btn btn-success" onClick={handleAscSort}>
-                Sort in Ascending
-              </button>
-              <button className="btn btn-success" onClick={handleNameSort}>
-                Sort by Name
-              </button>
-              <button className="btn btn-success" onClick={handleAgeSort}>
-                Sort by Age
-              </button>
-              <input
-                type="number"
-                placeholder="Enter your age"
-                onChange={(e) => setAgee(e.target.value)}
-              />
-              <button className="btn btn-success" onClick={handleAgeFilter}>
-                show above 30
-              </button>
-            </div>
+          <div className="float-right text-warning">
+            {" "}
+            Total records : {users.length}
+          </div>
+          <table className="table mt-4">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Age</th>
+                <th>Status</th>
+                <th>Score</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            {loading ? (
+              <div className="dot-wave ">
+                <div className="dot-wave__dot"></div>
+                <div className="dot-wave__dot"></div>
+                <div className="dot-wave__dot"></div>
+                <div className="dot-wave__dot"></div>
+              </div>
+            ) : users.length > 0 ? (
+              <tbody>
+                {users.map((user, index) => (
+                  <tr
+                    key={index}
+                    className={`${
+                      user.score >= 50 ? "bg-danger" : "bg-success"
+                    }`}
+                  >
+                    <td>{user.namee}</td>
+                    <td>{user.email}</td>
+                    <td>{user.age}</td>
+                    <td>
+                      {user.score >= 50 ? <AiOutlineCheck /> : <RxCross2 />}
+                    </td>
+                    <td>{user.score}</td>
+                    <td>
+                      <Link
+                        to={`/update/${user._id}`}
+                        className="btn btn-warning mx-2"
+                      >
+                        <AiTwotoneEdit />
+                      </Link>
+                      <button
+                        className="btn btn-danger"
+                        onClick={() => handleDelete(user._id)}
+                      >
+                        <AiTwotoneDelete />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            ) : (
+              <p className="mt-2 text-danger fw-bold">No such records</p>
+            )}
+          </table>
+          <div className="d-flex gap-2  flex-wrap">
+            <button className="btn btn-success" onClick={handleTrue}>
+              show only true
+            </button>
+            <button className="btn btn-success" onClick={handleFalse}>
+              show only false
+            </button>
+            <button className="btn btn-success" onClick={handleAll}>
+              show All
+            </button>
+            <button className="btn btn-success" onClick={handleDesSort}>
+              Sort in Descending
+            </button>
+            <button className="btn btn-success" onClick={handleAscSort}>
+              Sort in Ascending
+            </button>
+            <button className="btn btn-success" onClick={handleNameSort}>
+              Sort by Name
+            </button>
+            <button className="btn btn-success" onClick={handleAgeSort}>
+              Sort by Age
+            </button>
+            <input
+              type="number"
+              placeholder="Enter your age"
+              onChange={(e) => setAgee(e.target.value)}
+            />
+            <button className="btn btn-success" onClick={handleAgeFilter}>
+              show above 30
+            </button>
           </div>
         </div>
       </div>
       <DotWave size={47} speed={1} color="white" />
-      <Employee />
+      {/* <Employee /> */}
     </>
   );
 };
