@@ -9,13 +9,14 @@ const UserSchema = new mongoose.Schema({
     namee: String,
     email: String,
     age: Number,
+    score:Number,
     statuss: Boolean
 
 })
 
-//8                    users -> collection name in DB
+//8                               users -> collection name in DB
 const UserModel = mongoose.model("users",UserSchema)
 
 //9
 module.exports = UserModel
-//imprt it inside index.js(backend)
+//import it inside EndPointUsers.js(backend)

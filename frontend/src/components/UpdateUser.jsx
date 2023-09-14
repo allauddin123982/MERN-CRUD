@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";//useParams -> to access route parameters from the URL
 const UpdateUser = () => {
   const [form, setForm] = useState({});
-  const { id } = useParams(); //distract the id from the URL
+  const { id } = useParams(); 
   const navigate = useNavigate();
   function handleSubmitUpdate(e) {
     e.preventDefault();
@@ -63,9 +63,7 @@ const UpdateUser = () => {
                   setForm((prev) => ({ ...prev, email: e.target.value }))
                 }
               />
-              <div id="emailHelp" className="form-text">
-                We'll never share your email with anyone else.
-              </div>
+              
             </div>
             <div className="mb-3">
               <label htmlFor="Name" className="form-label">
@@ -84,6 +82,22 @@ const UpdateUser = () => {
             </div>
             <div className="mb-3">
               <label htmlFor="Name" className="form-label">
+                Score:
+              </label>
+              <input
+                type="text"
+                name="score"
+                className="form-control"
+                id="exampleInputName"
+                aria-describedby="NameHelp"
+                value={form.score}
+                onChange={(e) =>
+                  setForm((prev) => ({ ...prev, score: e.target.value }))
+                }
+              />
+            </div>
+            {/* <div className="mb-3">
+              <label htmlFor="Name" className="form-label">
                 Status:
               </label>
               <input
@@ -96,7 +110,7 @@ const UpdateUser = () => {
                   setForm((prev) => ({ ...prev, statuss: e.target.value }))
                 }
               />
-            </div>
+            </div> */}
 
             <button type="submit" className="btn btn-primary">
               Update
